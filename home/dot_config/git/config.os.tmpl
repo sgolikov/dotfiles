@@ -1,0 +1,18 @@
+{{- if eq .chezmoi.os "windows" -}}
+[includeIf "gitdir:D:/work/"]
+    path = ~/.config/git/config.work
+
+[core]
+    autocrlf = true
+    eol = crlf
+    sshCommand = ssh -o IdentityAgent=\\\\.\\pipe\\openssh-ssh-agent
+
+[gpg]
+    program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
+{{- else -}}
+[includeIf "gitdir:~/projects/"]
+    path = ~/.config/git/config.work
+
+[gpg]
+    program = gpg
+{{- end -}}

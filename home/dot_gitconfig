@@ -1,0 +1,5 @@
+# managed by chezmoi
+
+[include]
+    path = ~/.config/git/config.common
+    path = ~/.config/git/config.os

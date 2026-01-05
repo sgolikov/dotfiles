@@ -1,0 +1,12 @@
+[user]
+    name = Sergei Golikov
+    email = serg.sb@gmail.com
+
+[github]
+    user = sgolikov
+
+[init]
+    defaultBranch = main
+
+[commit]
+    gpgsign = false
