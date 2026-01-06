@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.os "darwin" }}
+{{- if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 
 if ! command -v brew >/dev/null 2>&1; then
@@ -10,4 +10,4 @@ brew list gnupg >/dev/null 2>&1 || brew install gnupg
 brew list pinentry-mac >/dev/null 2>&1 || brew install pinentry-mac
 
 echo "GPG installed via Homebrew"
-{{ end }}
+{{- end -}}

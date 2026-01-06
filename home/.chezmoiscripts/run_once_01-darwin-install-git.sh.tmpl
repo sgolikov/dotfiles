@@ -1,6 +1,4 @@
-{{- if eq .chezmoi.os "windows" -}}
-{{- /* render empty on windows */ -}}
-{{- else if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env sh
 set -eu
 
@@ -8,12 +6,6 @@ if command -v git >/dev/null 2>&1; then
   exit 0
 fi
 
-if ! command -v brew >/dev/null 2>&1; then
-  echo "Homebrew not found. Install brew first."
-  exit 1
-fi
-
+command -v brew >/dev/null 2>&1 || { echo "Homebrew not found"; exit 1; }
 brew install git
-{{- else -}}
-{{- /* render empty on non-darwin */ -}}
 {{- end -}}
