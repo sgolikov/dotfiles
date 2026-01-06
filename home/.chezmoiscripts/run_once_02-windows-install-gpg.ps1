@@ -1,0 +1,10 @@
+# Проверка: gpg уже есть?
+if (Get-Command gpg.exe -ErrorAction SilentlyContinue) {
+    Write-Host "GPG already installed"
+    exit 0
+}
+
+# Установка через winget
+winget install --id GnuPG.Gpg4win --silent --accept-source-agreements --accept-package-agreements
+
+Write-Host "Gpg4win installed"

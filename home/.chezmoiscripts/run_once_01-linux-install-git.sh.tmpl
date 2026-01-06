@@ -1,0 +1,26 @@
+{{- if eq .chezmoi.os "windows" -}}
+{{- /* render empty on windows */ -}}
+{{- else if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env sh
+set -eu
+
+if command -v git >/dev/null 2>&1; then
+  exit 0
+fi
+
+if command -v apt-get >/dev/null 2>&1; then
+  sudo apt-get update
+  sudo apt-get install -y git
+elif command -v dnf >/dev/null 2>&1; then
+  sudo dnf install -y git
+elif command -v yum >/dev/null 2>&1; then
+  sudo yum install -y git
+elif command -v pacman >/dev/null 2>&1; then
+  sudo pacman -Sy --noconfirm git
+else
+  echo "No supported package manager found."
+  exit 1
+fi
+{{- else -}}
+{{- /* render empty on non-linux */ -}}
+{{- end -}}

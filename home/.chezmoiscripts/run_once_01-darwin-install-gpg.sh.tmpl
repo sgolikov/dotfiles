@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "darwin" }}
+#!/bin/sh
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not found, skipping GPG install"
+  exit 0
+fi
+
+brew list gnupg >/dev/null 2>&1 || brew install gnupg
+brew list pinentry-mac >/dev/null 2>&1 || brew install pinentry-mac
+
+echo "GPG installed via Homebrew"
+{{ end }}
