@@ -9,7 +9,16 @@
 
 [gpg]
     program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
+
+{{- else if eq .chezmoi.os "darwin" -}}
+[includeIf "gitdir:~/Workspace/work/"]
+    path = ~/.config/git/config.work
+
+[gpg]
+    program = gpg
+
 {{- else -}}
+#Linux / WSL
 [includeIf "gitdir:~/projects/"]
     path = ~/.config/git/config.work
 
