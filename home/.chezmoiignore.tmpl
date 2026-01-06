@@ -1,0 +1,5 @@
+{{- if ne .chezmoi.os "windows" -}}
+.chezmoiscripts/run_once_01-windows-install-git.ps1
+.chezmoiscripts/run_once_02-windows-install-gpg.ps1
+.chezmoiscripts/run_once_03-windows-set-gnupghome.ps1
+{{- end -}}
