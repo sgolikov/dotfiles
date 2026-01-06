@@ -1,0 +1,6 @@
+{{- if eq .chezmoi.os "darwin" }}
+# На macOS часто решает проблемы “карта пропала”
+disable-ccid
+{{- else }}
+# На Linux/WSL/Windows обычно CCID оставляем включённым
+{{- end }}
