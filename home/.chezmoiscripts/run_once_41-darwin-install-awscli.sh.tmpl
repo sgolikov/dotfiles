@@ -1,0 +1,9 @@
+{{- if ne .chezmoi.os "darwin" -}}{{""}}{{- else -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+brew install awscli
+
+aws --version
+echo "OK: AWS CLI installed"
+{{- end -}}

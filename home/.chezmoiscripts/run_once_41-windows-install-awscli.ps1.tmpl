@@ -1,0 +1,41 @@
+{{- if ne .chezmoi.os "windows" -}}{{""}}{{- else -}}
+$ErrorActionPreference = "Stop"
+
+function Find-AwsExe {
+  $candidates = @(
+    (Join-Path $env:ProgramFiles "Amazon\AWSCLIV2\aws.exe"),
+    (Join-Path ${env:ProgramFiles(x86)} "Amazon\AWSCLIV2\aws.exe")
+  )
+  foreach ($p in $candidates) { if (Test-Path $p) { return $p } }
+  $cmd = Get-Command aws -ErrorAction SilentlyContinue
+  if ($cmd) { return $cmd.Source }
+  return $null
+}
+
+$awsExe = Find-AwsExe
+if (-not $awsExe) {
+  # 1) Try winget
+  if (Get-Command winget -ErrorAction SilentlyContinue) {
+    $null = winget install --id Amazon.AWSCLI --exact --silent --accept-package-agreements --accept-source-agreements 2>$null
+  }
+
+  # Re-check
+  $awsExe = Find-AwsExe
+}
+
+if (-not $awsExe) {
+  # 2) Fallback to official MSI
+  $msi = Join-Path $env:TEMP "AWSCLIV2.msi"
+  Invoke-WebRequest -Uri "https://awscli.amazonaws.com/AWSCLIV2.msi" -OutFile $msi
+  Start-Process msiexec.exe -Wait -ArgumentList "/i `"$msi`" /qn"
+
+  $awsExe = Find-AwsExe
+}
+
+if (-not $awsExe) {
+  throw "AWS CLI install failed: aws.exe not found."
+}
+
+& $awsExe --version
+Write-Host "OK: AWS CLI installed ($awsExe)"
+{{- end -}}

@@ -1,0 +1,10 @@
+{{- if ne .chezmoi.os "darwin" -}}{{""}}{{- else -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+
+terraform version
+echo "OK: Terraform installed"
+{{- end -}}

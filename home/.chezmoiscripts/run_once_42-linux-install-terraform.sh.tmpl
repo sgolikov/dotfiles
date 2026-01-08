@@ -1,0 +1,25 @@
+{{- if ne .chezmoi.os "linux" -}}{{""}}{{- else -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+TF_VERSION="1.10.0"
+ARCH="amd64"
+
+command -v terraform >/dev/null 2>&1 && {
+  terraform version
+  exit 0
+}
+
+tmp="$(mktemp -d)"
+cd "$tmp"
+
+curl -fsSL \
+  https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_${ARCH}.zip \
+  -o terraform.zip
+
+unzip -q terraform.zip
+sudo install -m 0755 terraform /usr/local/bin/terraform
+
+terraform version
+echo "OK: Terraform installed"
+{{- end -}}

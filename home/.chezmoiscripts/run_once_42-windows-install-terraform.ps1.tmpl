@@ -1,0 +1,12 @@
+{{- if eq .chezmoi.os "windows" -}}
+$ErrorActionPreference = "Stop"
+
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+  throw "winget not found. Install/enable App Installer first."
+}
+
+$null = winget install --id Hashicorp.Terraform --exact --silent --accept-package-agreements --accept-source-agreements 2>$null
+
+terraform version
+Write-Host "OK: Terraform installed"
+{{- end -}}

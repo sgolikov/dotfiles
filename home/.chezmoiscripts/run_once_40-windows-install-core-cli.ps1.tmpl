@@ -1,0 +1,15 @@
+{{- if ne .chezmoi.os "windows" -}}{{""}}{{- else -}}
+$ErrorActionPreference = "Stop"
+
+function Ensure-WingetPackage($id) {
+  winget install --id $id --exact --silent `
+    --accept-package-agreements --accept-source-agreements `
+    2>$null | Out-Null
+}
+
+Ensure-WingetPackage "jqlang.jq"
+Ensure-WingetPackage "7zip.7zip"
+
+jq --version
+Write-Host "OK: core CLI installed (jq, 7zip)"
+{{- end -}}
